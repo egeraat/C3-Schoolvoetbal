@@ -14,6 +14,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:players,email',
             'password' => 'required|min:6|confirmed',
+
         ]);
     
         Player::create([
@@ -26,4 +27,5 @@ class RegisterController extends Controller
     
         return redirect()->route('login')->with('success', 'Account aangemaakt. Log in om verder te gaan.');
     }
+    
 }
