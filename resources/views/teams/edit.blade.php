@@ -4,6 +4,11 @@
 <div class="container">
     <h1>Team Bewerken: {{ $team->name }}</h1>
 
+
+    <nav class="mb-3">
+        <a href="{{ route('teams.index') }}" class="btn btn-secondary">Terug Naar Teams</a>
+    </nav>
+
     <form action="{{ route('teams.update', $team->id) }}" method="POST">
         @csrf
         @method('PUT')
