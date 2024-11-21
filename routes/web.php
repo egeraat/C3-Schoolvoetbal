@@ -2,8 +2,17 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TeamController;
+
+Route::resource('teams', TeamController::class);
+
+
+
+
+Route::post('teams/{team}/addPlayer', [TeamController::class, 'addPlayer'])->name('teams.addPlayer');
 
 Route::get('/', function () {
+    
     return view('welcome');
 });
 
