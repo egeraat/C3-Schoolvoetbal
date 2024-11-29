@@ -3,77 +3,62 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-12 mb-3">
-            <h1>DASHBOARD</h1>
+        <div class="col-12 mb-4">
+            <h1 class="text-center text-primary font-weight-bold">C3-SCHOOLVOETBAL</h1>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <!-- Home link -->
-                <a class="navbar-brand" href="{{ route('dashboard') }}">Home</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <!-- Teams link -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('teams.index') }}">Teams</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="speelschemaDropdown" role="button" data-toggle="dropdown">
-                                Speelschema
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Schema</a>
-                                <a class="dropdown-item" href="#">Genereren</a>
-                                <a class="dropdown-item" href="#">Scores</a>
-                            </div>
-                        </li>
+
+
+    <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <h4 class="card-header text-center text-success">Schoolvoetbal</h4>
+                <div class="card-body">
+                    <h5 class="card-title">Top 5:</h5>
+                    <ul class="list-unstyled">
+                        <li>1. Team A</li>
+                        <li>2. Team B</li>
+                        <li>3. Team C</li>
+                        <li>4. Team D</li>
+                        <li>5. Team E</li>
                     </ul>
                 </div>
-            </nav>
-        </div>
-    </div>
-
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <h4>Schoolvoetbal</h4>
-            <h5>Top 5:</h5>
-            <ul>
-                <li>1. ---</li>
-                <li>2. ---</li>
-                <li>3. ---</li>
-                <li>4. ---</li>
-                <li>5. ---</li>
-            </ul>
-        </div>
-
-        <div class="col-md-4">
-            <div class="border bg-light" style="height: 230px; display: flex; justify-content: center; align-items: center;">
-                <img src="{{ asset('voetbalveld.jpg') }}" alt="Voorbeeld Afbeelding" style="max-height: 100%; max-width: 100%;">
             </div>
         </div>
 
-        <div class="col-md-4">
-            <h5>Mijn team:</h5>
-            <ul>
-                <li>Speler 1</li>
-                <li>Speler 2</li>
-                <li>Speler 3</li>
-                <li>Speler 4</li>
-            </ul>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <img src="{{ asset('voetbalveld.jpg') }}" alt="Voorbeeld Afbeelding" class="card-img-top">
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <h5 class="card-header text-center text-primary">Mijn team</h5>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                    <h5 class="card-title">Spelers:</h5>
+                        <li>Speler 1</li>
+                        <li>Speler 2</li>
+                        <li>Speler 3</li>
+                        <li>Speler 4</li>
+                        <li>Speler 5</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="row mt-4">
         <div class="col-12 text-center">
-            <a href="#" class="btn btn-primary">
-                Naar het wedstrijdschema →
-            </a>
+            <a href="#" class="btn btn-primary btn-lg shadow-sm">Naar het wedstrijdschema →</a>
         </div>
     </div>
 </div>
+
+<!-- Footer -->
+<footer class="bg-success text-white text-center py-3">
+    <p class="footer-text">© 2024 Schoolvoetbal Toernooi</p>
+</footer>
 @endsection

@@ -6,24 +6,27 @@
     <title>Dashboard</title>
     <!-- Voeg Bootstrap toe -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- Voeg je eigen CSS toe -->
+    <link rel="stylesheet" href="{{ asset('app.css') }}">
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="dashboard">Dashboard</a>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-success shadow-sm">
+            <a class="navbar-brand text-white" href="{{ route('dashboard') }}"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="dashboard">Home</a>
+                        <a class="nav-link text-white" href="{{ route('dashboard') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('teams.index') }}">Teams</a>
+                        <a class="nav-link text-white" href="{{ route('teams.index') }}">Teams</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="speelschemaDropdown" role="button" data-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="speelschemaDropdown" role="button" data-toggle="dropdown">
                             Speelschema
                         </a>
                         <div class="dropdown-menu">
@@ -38,30 +41,30 @@
                 <ul class="navbar-nav ml-auto">
                     @auth
                         <li class="nav-item">
-                            <span class="nav-link">Ingelogd als: {{ Auth::user()->name }}</span>
+                            <span class="nav-link text-white">Ingelogd als: {{ Auth::user()->name }}</span>
                         </li>
                         <li class="nav-item">
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
-                                <button type="submit" class="btn btn-outline-danger btn-sm">Uitloggen</button>
+                                <button type="submit" class="btn btn-outline-light">Logout</button>
                             </form>
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="btn btn-outline-primary btn-sm" href="{{ route('login') }}">Inloggen</a>
+                            <a class="nav-link text-white" href="{{ route('login') }}">Login</a>
                         </li>
                     @endauth
                 </ul>
             </div>
         </nav>
-
-        <div class="container mt-4">
+        
+        <main>
             @yield('content')
-        </div>
+        </main>
     </div>
 
-    <!-- Voeg Bootstrap JS toe -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <!-- Voeg JavaScript en Bootstrap toe -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
