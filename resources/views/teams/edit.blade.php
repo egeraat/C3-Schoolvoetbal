@@ -1,46 +1,53 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>Team Bewerken: {{ $team->name }}</h1>
+    <div class="container">
+        <h1>Team bewerken</h1>
 
-    <form action="{{ route('teams.update', $team->id) }}" method="POST">
-        @csrf
-        @method('PUT')
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <div class="form-group">
-            <label for="name">Team Naam</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ $team->name }}" required>
-        </div>
+        <form action="{{ route('teams.update', $team->id) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-        <button type="submit" class="btn btn-primary">Werk Team Bij</button>
-    </form>
+            <div class="form-group">
+                <label for="name">Teamnaam</label>
+                <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $team->name) }}" required>
+            </div>
 
-    <hr>
+ 
+            @auth
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Opslaan</button>
+                    <a href="{{ route('teams.index') }}" class="btn btn-secondary">Annuleren</a>
+                </div>
+            @endauth
+        </form>
 
-    <h3>Spelers in dit Team</h3>
-    <ul>
-        @foreach($team->players as $player)
-            <li>{{ $player->name }}</li>
-        @endforeach
-    </ul>
+        <hr>
+        <h3>Spelers in dit Team</h3>
+        <ul>
+            @foreach($team->players as $player)
+                <li>{{ $player->name }}</li>
+            @endforeach
+        </ul>
 
-    <form action="{{ route('teams.addPlayer', $team->id) }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="name">Naam van de speler</label>
-            <input type="text" class="form-control" name="name" required>
-        </div>
+        <form action="{{ route('teams.addPlayer', $team->id) }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="name">Naam van de speler</label>
+                <input type="text" name="name" id="name" class="form-control" required>
+            </div>
 
-        <button type="submit" class="btn btn-success mt-3">Voeg Speler Toe</button>
-    </form>
-
-    <hr>
-
-    <!-- Navigatie naar Dashboard en Alle Teams -->
-    <nav class="mt-3">
-
-        <a href="{{ route('teams.index') }}" class="btn btn-secondary">Terug naar teams</a>
-    </nav>
-</div>
+            <button type="submit" class="btn btn-success mt-3">Voeg Speler Toe</button>
+        </form>
+    </div>
 @endsection

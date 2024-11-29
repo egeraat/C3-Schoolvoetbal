@@ -9,12 +9,21 @@ class Team extends Model
 {
     use HasFactory;
 
-    // Vulbare velden
-    protected $fillable = ['name'];
+    protected $fillable = 
+    [
+        'name',
+        'user_id'
+    ];
 
-    // Relatie met het Player-model (een team heeft veel spelers)
+
     public function players()
     {
         return $this->hasMany(Player::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

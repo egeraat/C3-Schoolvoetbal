@@ -5,60 +5,79 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use App\Models\Player;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
 {
-    // Toon alle teams
     public function index()
     {
-        $teams = Team::all(); // Haal alle teams op
+        $teams = Team::all(); 
         return view('teams.index', compact('teams'));
     }
 
-    // Toon formulier voor nieuw team
     public function create()
     {
         return view('teams.create');
     }
 
-    // Sla nieuw team op
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required']); // Validatie
-        Team::create($request->all()); // Opslaan
-        return redirect()->route('teams.index')->with('success', 'Team toegevoegd!');
+         $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        ]);
+
+ 
+        Team::create([
+            'name' => $validated['name'],
+            'user_id' => Auth::id(), 
+        ]);
+
+        return redirect()->route('teams.index')->with('success', 'Team succesvol toegevoegd.');
     }
 
-    // Toon formulier voor bewerken van een team
     public function edit(Team $team)
     {
-        $players = Player::all(); // Haal alle spelers op
+        if ($team->user_id !== auth()->id()) {
+            return redirect()->route('teams.index')->with('error', 'Je mag dit team niet bewerken.');
+        }
+
+        $players = Player::all();
         return view('teams.edit', compact('team', 'players'));
     }
 
-    // Update een team
     public function update(Request $request, Team $team)
     {
+        if ($team->user_id !== auth()->id()) {
+            return redirect()->route('teams.index')->with('error', 'Je mag dit team niet bijwerken.');
+        }
+
         $request->validate(['name' => 'required']);
-        $team->update($request->all());
+        $team->update($request->only('name')); 
+
         return redirect()->route('teams.index')->with('success', 'Team bijgewerkt!');
     }
 
-    // Verwijder een team
     public function destroy(Team $team)
     {
+        if ($team->user_id !== auth()->id()) {
+            return redirect()->route('teams.index')->with('error', 'Je mag dit team niet verwijderen.');
+        }
+
         $team->delete();
+
         return redirect()->route('teams.index')->with('success', 'Team verwijderd!');
     }
 
-    // Voeg speler toe aan een team
     public function addPlayer(Request $request, Team $team)
     {
+        if ($team->user_id !== auth()->id()) {
+            return redirect()->route('teams.index')->with('error', 'Je mag geen spelers aan dit team toevoegen.');
+        }
+
         $request->validate([
-            'name' => 'required', // Speler naam verplicht
+            'name' => 'required', 
         ]);
 
-        // Maak de speler aan en koppel deze aan het team
         $player = new Player();
         $player->name = $request->name;
         $player->team_id = $team->id;
