@@ -37,7 +37,7 @@ class TeamController extends Controller
 
     public function edit(Team $team)
     {
-        if ($team->user_id !== auth()->id()) {
+        if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
             return redirect()->route('teams.index')->with('error', 'Je mag dit team niet bewerken.');
         }
 
@@ -47,7 +47,7 @@ class TeamController extends Controller
 
     public function update(Request $request, Team $team)
     {
-        if ($team->user_id !== auth()->id()) {
+        if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
             return redirect()->route('teams.index')->with('error', 'Je mag dit team niet bijwerken.');
         }
 
