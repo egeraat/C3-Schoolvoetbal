@@ -59,13 +59,15 @@ class TeamController extends Controller
 
     public function destroy(Team $team)
     {
-        if ($team->user_id !== auth()->id()) {
-            return redirect()->route('teams.index')->with('error', 'Je mag dit team niet verwijderen.');
+        // Controleer of de gebruiker een admin is of de eigenaar van het team
+        if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
+            return redirect()->route('teams.index')->with('error', 'Je hebt geen toestemming om dit team te verwijderen.');
         }
-
+    
+        // Verwijder het team
         $team->delete();
-
-        return redirect()->route('teams.index')->with('success', 'Team verwijderd!');
+    
+        return redirect()->route('teams.index')->with('success', 'Team succesvol verwijderd!');
     }
 
     public function addPlayer(Request $request, Team $team)
