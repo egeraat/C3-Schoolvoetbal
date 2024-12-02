@@ -60,7 +60,6 @@ body {
     color: rgb(6, 20, 2); /* Donkergroene tekst in de body */
 }
 
-
 .card-header.text-primary {
     color: white !important;
 }
@@ -138,7 +137,85 @@ footer .footer-text {
     color: #476a3b; /* Gebruik een groene kleur voor de titel van 'Top 5' */
 }
 
-/* Responsive layout aanpassingen */
+/* Styling voor authenticatieformulieren */
+.auth-container {
+    max-width: 500px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titels boven de formulieren */
+.auth-container h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Labels en inputvelden */
+.auth-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #4c4c4c;
+    font-size: 0.9rem;
+}
+
+.auth-container input[type="text"],
+.auth-container input[type="email"],
+.auth-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #495057;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+}
+
+/* Hover- en focus-effecten */
+.auth-container input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Knoppen binnen formulieren */
+.auth-container button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-container button[type="submit"]:hover {
+    background-color: #218838;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Login specifieke styling */
+.login-container {
+    border-left: 5px solid #007bff;
+}
+
+/* Register specifieke styling */
+.register-container {
+    border-left: 5px solid #28a745;
+}
+
+/* Responsive layout */
 @media (max-width: 768px) {
     .container {
         padding: 20px;
