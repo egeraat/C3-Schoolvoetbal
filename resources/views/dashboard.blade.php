@@ -1,3 +1,5 @@
+{{-- resources/views/dashboard.blade.php --}}
+
 @extends('layouts.app')
 
 @section('content')
@@ -7,8 +9,6 @@
             <h1 class="text-center text-primary font-weight-bold">C3-SCHOOLVOETBAL</h1>
         </div>
     </div>
-
-
 
     <div class="row mt-5">
         <div class="col-md-4 mb-4">
@@ -37,14 +37,16 @@
             <div class="card shadow-sm">
                 <h5 class="card-header text-center text-primary">Mijn team</h5>
                 <div class="card-body">
-                    <ul class="list-unstyled">
-                    <h5 class="card-title">Spelers:</h5>
-                        <li>Speler 1</li>
-                        <li>Speler 2</li>
-                        <li>Speler 3</li>
-                        <li>Speler 4</li>
-                        <li>Speler 5</li>
-                    </ul>
+                    @if($team)
+                        <h5 class="card-title">Spelers in jouw team:</h5>
+                        <ul class="list-unstyled">
+                            @foreach($players as $player)
+                                <li>{{ $player->name }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p>Je zit niet in een team. Voeg jezelf toe aan een team om spelers te zien.</p>
+                    @endif
                 </div>
             </div>
         </div>
@@ -52,7 +54,7 @@
 
     <div class="row mt-4">
         <div class="col-12 text-center">
-            <a href="#" class="btn btn-primary btn-lg shadow-sm">Naar het wedstrijdschema →</a>
+            <a href="{{ route('teams.index') }}" class="btn btn-primary btn-lg shadow-sm">Naar de Teams →</a>
         </div>
     </div>
 </div>

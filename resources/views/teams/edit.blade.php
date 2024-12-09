@@ -23,7 +23,6 @@
                 <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $team->name) }}" required>
             </div>
 
- 
             @auth
                 <div class="form-group mt-3">
                     <button type="submit" class="btn btn-primary">Opslaan</button>
