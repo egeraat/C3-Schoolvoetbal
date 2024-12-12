@@ -3,30 +3,25 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 
-// Home route
+Route::resource('teams', TeamController::class);
+
+Route::post('teams/{team}/addPlayer', [TeamController::class, 'addPlayer'])->name('teams.addPlayer');
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Teams routes
-Route::resource('teams', TeamController::class);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-
-
-Route::post('teams/{team}/addPlayer', [TeamController::class, 'addPlayer'])->name('teams.addPlayer');
-
-
-// Dashboard route (uses DashboardController)
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-
-// Authentication routes
+// Beveiliging voor routes waar je ingelogd moet zijn
 Route::middleware('auth')->group(function () {
-    // Teams resource route (automatically creates the necessary routes for create, store, edit, update, destroy)
+    // Hier is alleen de resource-route voor teams nodig
     Route::resource('teams', TeamController::class);
-
-    // Profile routes
+    
+    // Profielbeheer
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

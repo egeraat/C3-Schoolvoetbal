@@ -1,4 +1,3 @@
-{{-- resources/views/teams/index.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
@@ -26,6 +25,7 @@
                 <tr>
                     <td>{{ $team->name }}</td>
                     <td>{{ $team->user->name ?? 'Onbekend' }}</td> 
+                    
                     <td>
                         <a href="{{ route('teams.edit', $team->id) }}" class="btn btn-warning">Bewerken</a>
                         <form action="{{ route('teams.destroy', $team->id) }}" method="POST" style="display:inline;">

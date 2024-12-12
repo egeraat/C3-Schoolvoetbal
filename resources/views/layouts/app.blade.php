@@ -13,7 +13,7 @@
     <div id="app">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-success shadow-sm">
-            <a class="navbar-brand text-white" href="{{ route('dashboard') }}">Schoolvoetbal</a>
+            <a class="navbar-brand text-white" href="{{ route('dashboard') }}"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -36,8 +36,8 @@
                         </div>
                     </li>
                 </ul>
-
-                <!-- User info and logout -->
+                
+                <!-- User info en logout -->
                 <ul class="navbar-nav ml-auto">
                     @auth
                         <li class="nav-item">
@@ -63,7 +63,7 @@
         </main>
     </div>
 
-    <!-- Add Bootstrap JS -->
+    <!-- Voeg JavaScript en Bootstrap toe -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
