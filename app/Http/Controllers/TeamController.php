@@ -9,82 +9,97 @@ use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
 {
+    // Show the list of teams for the authenticated user
     public function index()
     {
-        $teams = Team::all(); 
+        $user = Auth::user();
+        $teams = $user->teams;  // Assuming a user has many teams
+
         return view('teams.index', compact('teams'));
     }
 
+    // Show the form to create a new team
     public function create()
     {
         return view('teams.create');
     }
 
+    // Store a newly created team
     public function store(Request $request)
     {
-         $validated = $request->validate([
-        'name' => 'required|string|max:255',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
         ]);
 
- 
         Team::create([
             'name' => $validated['name'],
-            'user_id' => Auth::id(), 
+            'user_id' => Auth::id(), // Associate the team with the logged-in user
         ]);
 
         return redirect()->route('teams.index')->with('success', 'Team succesvol toegevoegd.');
     }
 
+    // Show the form to edit an existing team
     public function edit(Team $team)
     {
-        if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
+        // Check if the logged-in user is the owner of the team
+        if ($team->user_id !== auth()->id()) {
             return redirect()->route('teams.index')->with('error', 'Je mag dit team niet bewerken.');
         }
 
-        $players = Player::all();
+        // Get all players associated with this team
+        $players = Player::where('team_id', $team->id)->get();
         return view('teams.edit', compact('team', 'players'));
     }
 
+    // Update an existing team
     public function update(Request $request, Team $team)
     {
-        if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
+        // Check if the logged-in user is the owner of the team
+        if ($team->user_id !== auth()->id()) {
             return redirect()->route('teams.index')->with('error', 'Je mag dit team niet bijwerken.');
         }
 
-        $request->validate(['name' => 'required']);
-        $team->update($request->only('name')); 
+        // Validate the team name
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
 
-        return redirect()->route('teams.index')->with('success', 'Team bijgewerkt!');
+        // Update the team name
+        $team->update($request->only('name'));
+
+        return redirect()->route('teams.index')->with('success', 'Team succesvol bijgewerkt!');
     }
 
+    // Delete a team
     public function destroy(Team $team)
     {
-        // Controleer of de gebruiker een admin is of de eigenaar van het team
-        if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
+        // Check if the logged-in user is the owner of the team
+        if ($team->user_id !== auth()->id()) {
             return redirect()->route('teams.index')->with('error', 'Je hebt geen toestemming om dit team te verwijderen.');
         }
-    
-        // Verwijder het team
+
+        // Delete the team
         $team->delete();
-    
+
         return redirect()->route('teams.index')->with('success', 'Team succesvol verwijderd!');
     }
 
+    // Add a player to a team
     public function addPlayer(Request $request, Team $team)
     {
-        if ($team->user_id !== auth()->id()) {
-            return redirect()->route('teams.index')->with('error', 'Je mag geen spelers aan dit team toevoegen.');
-        }
-
-        $request->validate([
-            'name' => 'required', 
+        // Validate player name
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
         ]);
 
+        // Create a new player and associate it with the team
         $player = new Player();
-        $player->name = $request->name;
+        $player->name = $validated['name'];
         $player->team_id = $team->id;
         $player->save();
 
-        return redirect()->route('teams.edit', $team->id)->with('success', 'Speler toegevoegd!');
+        // Redirect back to the team edit page with a success message
+        return redirect()->route('teams.edit', $team->id)->with('success', 'Speler toegevoegd aan het team.');
     }
 }
