@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GameController;
 
 // Home route
 Route::get('/', function () {
@@ -16,6 +17,12 @@ Route::resource('teams', TeamController::class);
 
 
 Route::post('teams/{team}/addPlayer', [TeamController::class, 'addPlayer'])->name('teams.addPlayer');
+
+
+
+Route::get('/games', [GameController::class, 'index'])->name('games.index');
+Route::post('/games/generate', [GameController::class, 'generate'])->name('games.generate');
+
 
 
 // Dashboard route (uses DashboardController)

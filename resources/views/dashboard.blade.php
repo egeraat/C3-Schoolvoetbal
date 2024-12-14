@@ -1,5 +1,3 @@
-{{-- resources/views/dashboard.blade.php --}}
-
 @extends('layouts.app')
 
 @section('content')
@@ -51,6 +49,17 @@
             </div>
         </div>
     </div>
+
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <form action="{{ route('games.generate') }}" method="POST">
+            @csrf
+                <button type="submit" class="btn btn-primary">Wedstrijdschema Genereren</button>
+            </form>
+        </div>
+    </div>
+
+
 
     <div class="row mt-4">
         <div class="col-12 text-center">
