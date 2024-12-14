@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('team1_id');
             $table->unsignedBigInteger('team2_id');
             $table->string('status')->default('pending');
+            $table->integer('field')->nullable();
             $table->timestamps();
 
             // Relaties

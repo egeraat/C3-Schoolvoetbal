@@ -23,6 +23,10 @@ Route::post('teams/{team}/addPlayer', [TeamController::class, 'addPlayer'])->nam
 Route::get('/games', [GameController::class, 'index'])->name('games.index');
 Route::post('/games/generate', [GameController::class, 'generate'])->name('games.generate');
 
+Route::get('/games/generate', function () {
+    return redirect()->route('games.index');
+});
+
 
 
 // Dashboard route (uses DashboardController)

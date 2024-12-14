@@ -14,46 +14,51 @@ class GameController extends Controller
         return view('games.index', compact('games'));
     }
 
-    // Toon het formulier voor het genereren van het schema
     public function show()
     {
-        // Haal alle wedstrijden op (indien er al een schema is gegenereerd)
         $games = Game::all();
         
         return view('games.index', compact('games'));
     }
 
-    // Genereer de wedstrijden voor een halve competitie
     public function generate(Request $request, Team $team)
     {
-        // Controleer of de ingelogde gebruiker een beheerder is
         if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
-            return redirect()->route('games.index')->with('error', 'Je hebt geen toestemming om dit team te verwijderen.');
+            return redirect()->route('games.index')->with('error', 'Je hebt geen toestemming.');
         }
-
-        // Verwijder het oude schema (alle bestaande wedstrijden)
-        Game::truncate(); // Dit verwijdert alle records uit de games-tabel
-
-        // Haal alle teams op
+    
+        $request->validate([
+            'fields' => 'required|integer|min:1',
+        ]);
+    
+        $fields = $request->input('fields');
+    
+        Game::truncate(); 
+    
         $teams = Team::all();
-
-        // Array om het schema in op te slaan
+    
         $games = [];
-
-        // Genereer het schema (halve competitie)
+        $fieldCounter = 1; 
+    
         for ($i = 0; $i < count($teams); $i++) {
             for ($j = $i + 1; $j < count($teams); $j++) {
                 $games[] = [
                     'team1_id' => $teams[$i]->id,
                     'team2_id' => $teams[$j]->id,
-                    'status' => 'pending', // Of een andere status zoals 'gepland'
+                    'status' => 'pending', 
+                    'field' => $fieldCounter, 
                 ];
+    
+                $fieldCounter++;
+                if ($fieldCounter > $fields) {
+                    $fieldCounter = 1; 
+                }
             }
         }
-
-        // Voeg het schema toe aan de database (bijvoorbeeld via een batch insert)
+    
         Game::insert($games);
-
-        return redirect()->route('games.index')->with('success', 'Wedstrijdschema gegenereerd!');
+    
+        return redirect()->route('games.index')->with('success', 'Wedstrijdschema gegenereerd met ' . $fields . ' velden!');
     }
+    
 }

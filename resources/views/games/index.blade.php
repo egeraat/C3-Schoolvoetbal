@@ -4,26 +4,33 @@
 <div class="container">
     <h1>Wedstrijdschema</h1>
     
-    <!-- Bericht als het schema succesvol is gegenereerd -->
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    <!-- Knop om het schema te genereren -->
-    <form action="{{ route('games.generate') }}" method="POST">
+    <form action="{{ route('games.generate') }}" method="POST" class="mb-4">
         @csrf
-        <button type="submit" class="btn btn-primary">Wedstrijdschema Genereren</button>
+        <div class="form-group">
+            <label for="fields">Aantal velden:</label>
+            <select name="fields" id="fields" class="form-control" required>
+                <option value="1">1 veld</option>
+                <option value="2">2 velden</option>
+                <option value="3">3 velden</option>
+                <option value="4">4 velden</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Wedstrijdschema Genereren</button>
     </form>
 
-    <!-- Tabel met wedstrijden -->
     <table class="table mt-4">
         <thead>
             <tr>
                 <th>Nr.</th>
                 <th>Team 1</th>
                 <th>Team 2</th>
+                <th>Veld</th>
                 <th>Scheidsrechter</th>
                 <th>Uitslag</th>
                 <th>Starttijd</th>
@@ -32,15 +39,16 @@
         <tbody>
             @foreach ($games as $game)
             <tr>
-                <td>{{ $game->id }}</td>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $game->team1->name }}</td>
                 <td>{{ $game->team2->name }}</td>
-                <td>{{ $game->scheidsrechter }}</td>
-                <td>{{ $game->starttijd ? $game->starttijd->format('H:i') : 'Tijd niet beschikbaar' }}</td>
-                <td>{{ $game->starttijd ? $game->starttijd->format('H:i') : 'Tijd niet beschikbaar' }}</td>
+                <td>{{ $game->field ?? 'Niet toegewezen' }}</td>
+                <td>{{ $game->scheidsrechter ?? 'Niet toegewezen' }}</td>
+                <td>{{ $game->uitslag ?? '-' }}</td>
+                <td>{{ $game->starttijd ? $game->starttijd->format('H:i') : 'Niet beschikbaar' }}</td>
             </tr>
             @endforeach
-    </tbody>
+        </tbody>
     </table>
 </div>
 @endsection

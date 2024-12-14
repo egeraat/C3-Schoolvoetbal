@@ -53,7 +53,8 @@
     <div class="row mt-4">
         <div class="col-12 text-center">
             <form action="{{ route('games.generate') }}" method="POST">
-            @csrf
+                @csrf
+                <input type="hidden" name="fields" value="4"> 
                 <button type="submit" class="btn btn-primary">Wedstrijdschema Genereren</button>
             </form>
         </div>
