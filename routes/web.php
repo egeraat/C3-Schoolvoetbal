@@ -27,6 +27,7 @@ Route::get('/games/generate', function () {
     return redirect()->route('games.index');
 });
 
+Route::get('/wedstrijdschema', [GameController::class, 'viewSchema'])->name('games.view');
 
 
 // Dashboard route (uses DashboardController)

@@ -13,7 +13,13 @@ class GameController extends Controller
         $games = Game::with('team1', 'team2')->get();
         return view('games.index', compact('games'));
     }
-
+    public function viewSchema()
+    {
+        $games = Game::with('team1', 'team2')->get(); 
+    
+        return view('games.schema', compact('games')); 
+    }
+    
     public function show()
     {
         $games = Game::all();

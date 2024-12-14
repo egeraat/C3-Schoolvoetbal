@@ -51,15 +51,19 @@
     </div>
 
     <div class="row mt-4">
-        <div class="col-12 text-center">
+    <div class="col-12 text-center">
+        @if (auth()->user()->email === 'admin@example.com')
             <form action="{{ route('games.generate') }}" method="POST">
                 @csrf
-                <input type="hidden" name="fields" value="4"> 
+                <input type="hidden" name="fields" value="4">
                 <button type="submit" class="btn btn-primary">Wedstrijdschema Genereren</button>
             </form>
-        </div>
+        @else
+            <input type="hidden" name="fields" value="4">
+            <a href="{{ route('games.view') }}" class="btn btn-primary">Bekijk Wedstrijdschema</a>
+        @endif
     </div>
-
+</div>
 
 
     <div class="row mt-4">
