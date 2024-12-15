@@ -11,8 +11,15 @@ class Player extends Model
 
     protected $fillable = ['name', 'team_id'];
 
+
+    public function isAdmin()
+    {
+        return $this->is_admin; 
+    }
+
     public function team()
     {
         return $this->belongsTo(Team::class);
     }
+    
 }

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
@@ -30,12 +33,29 @@ Route::get('/games/generate', function () {
 Route::get('/wedstrijdschema', [GameController::class, 'viewSchema'])->name('games.view');
 
 
-// Dashboard route (uses DashboardController)
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-// Authentication routes
+Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->middleware('guest')->name('password.request');
+
+Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->middleware('guest')->name('password.email');
+
+Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->middleware('guest')->name('password.reset');
+
+Route::post('/reset-password', [NewPasswordController::class, 'store'])->middleware('guest')->name('password.update');
+
+
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::patch('/admin/{id}/toggle', [AdminController::class, 'toggleAdmin'])->name('admin.toggle');
+Route::post('/admin', [AdminController::class, 'store'])->name('admin.store');
+Route::delete('/admin/destroy/{user}', [AdminController::class, 'destroy'])->name('admin.destroy');
+Route::post('/admin/update', [AdminController::class, 'store'])->name('admin.update');
+Route::post('/admin/{id}/update', [AdminController::class, 'update'])->name('admin.toggle');
+Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+Route::put('/admin/update', [AdminController::class, 'store'])->name('admin.update');
+
+
 Route::middleware('auth')->group(function () {
-    // Teams resource route (automatically creates the necessary routes for create, store, edit, update, destroy)
     Route::resource('teams', TeamController::class);
 
     // Profile routes

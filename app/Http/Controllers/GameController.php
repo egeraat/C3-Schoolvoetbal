@@ -29,7 +29,8 @@ class GameController extends Controller
 
     public function generate(Request $request, Team $team)
     {
-        if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
+        // Controleer of de gebruiker admin is via e-mail of via de is_admin kolom
+        if (($team->user_id !== auth()->id()) && !auth()->user()->is_admin && auth()->user()->email !== 'admin@example.com') {
             return redirect()->route('games.index')->with('error', 'Je hebt geen toestemming.');
         }
     
@@ -44,20 +45,20 @@ class GameController extends Controller
         $teams = Team::all();
     
         $games = [];
-        $fieldCounter = 1; 
+        $fieldCounter = 1;
     
         for ($i = 0; $i < count($teams); $i++) {
             for ($j = $i + 1; $j < count($teams); $j++) {
                 $games[] = [
                     'team1_id' => $teams[$i]->id,
                     'team2_id' => $teams[$j]->id,
-                    'status' => 'pending', 
-                    'field' => $fieldCounter, 
+                    'status' => 'pending',
+                    'field' => $fieldCounter,
                 ];
     
                 $fieldCounter++;
                 if ($fieldCounter > $fields) {
-                    $fieldCounter = 1; 
+                    $fieldCounter = 1;
                 }
             }
         }
@@ -66,5 +67,6 @@ class GameController extends Controller
     
         return redirect()->route('games.index')->with('success', 'Wedstrijdschema gegenereerd met ' . $fields . ' velden!');
     }
+    
     
 }

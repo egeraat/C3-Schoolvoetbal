@@ -18,5 +18,11 @@
         @enderror
 
         <button type="submit">Inloggen</button>
+
+        <div class="mt-2">
+            <a href="{{ route('register') }}">Registreren?</a>
+            <a href="{{ route('password.request') }}" class="text-primary">Wachtwoord vergeten?</a>
+        </div>
+       
     </form>
 </div>

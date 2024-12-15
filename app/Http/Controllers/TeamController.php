@@ -43,7 +43,7 @@ class TeamController extends Controller
 
     public function edit(Team $team)
     {
-        if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
+        if (($team->user_id !== auth()->id()) && !auth()->user()->is_admin && auth()->user()->email !== 'admin@example.com') {
 
             return redirect()->route('teams.index')->with('error', 'Je mag dit team niet bewerken.');
         }
@@ -56,7 +56,7 @@ class TeamController extends Controller
 
     public function update(Request $request, Team $team)
     {
-        if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
+        if (($team->user_id !== auth()->id()) && !auth()->user()->is_admin && auth()->user()->email !== 'admin@example.com') {
 
             return redirect()->route('teams.index')->with('error', 'Je mag dit team niet bijwerken.');
         }
@@ -76,7 +76,7 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         // Controleer of de gebruiker een admin is of de eigenaar van het team
-        if ($team->user_id !== auth()->id() && auth()->user()->email !== 'admin@example.com') {
+        if (($team->user_id !== auth()->id()) && !auth()->user()->is_admin && auth()->user()->email !== 'admin@example.com') {
             return redirect()->route('teams.index')->with('error', 'Je hebt geen toestemming om dit team te verwijderen.');
         }
 

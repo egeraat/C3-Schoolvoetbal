@@ -34,10 +34,15 @@
                             <a class="dropdown-item" href="#">Genereren</a>
                             <a class="dropdown-item" href="#">Scores</a>
                         </div>
-                    </li>
+                    </li> 
+                    @auth
+                        @if(auth()->user()->is_admin)
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="{{ route('admin.index') }}">Beheer</a>
+                            </li>
+                        @endif
+                    @endauth                  
                 </ul>
-
-                <!-- User info and logout -->
                 <ul class="navbar-nav ml-auto">
                     @auth
                         <li class="nav-item">

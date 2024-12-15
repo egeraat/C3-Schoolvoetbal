@@ -52,7 +52,7 @@
 
     <div class="row mt-4">
     <div class="col-12 text-center">
-        @if (auth()->user()->email === 'admin@example.com')
+        @if (auth()->user()->email === 'admin@example.com' || auth()->user()->is_admin)
             <form action="{{ route('games.generate') }}" method="POST">
                 @csrf
                 <input type="hidden" name="fields" value="4">
@@ -64,6 +64,7 @@
         @endif
     </div>
 </div>
+
 
 
     <div class="row mt-4">
