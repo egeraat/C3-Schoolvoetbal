@@ -13,17 +13,16 @@ class GameController extends Controller
         $games = Game::with('team1', 'team2')->get();
         return view('games.index', compact('games'));
     }
+    
     public function viewSchema()
     {
         $games = Game::with('team1', 'team2')->get(); 
-    
         return view('games.schema', compact('games')); 
     }
     
     public function show()
     {
         $games = Game::all();
-        
         return view('games.index', compact('games'));
     }
 
@@ -33,20 +32,20 @@ class GameController extends Controller
         if (($team->user_id !== auth()->id()) && !auth()->user()->is_admin && auth()->user()->email !== 'admin@example.com') {
             return redirect()->route('games.index')->with('error', 'Je hebt geen toestemming.');
         }
-    
+
         $request->validate([
             'fields' => 'required|integer|min:1',
         ]);
-    
+
         $fields = $request->input('fields');
-    
+
         Game::truncate(); 
-    
+
         $teams = Team::all();
-    
+
         $games = [];
         $fieldCounter = 1;
-    
+
         for ($i = 0; $i < count($teams); $i++) {
             for ($j = $i + 1; $j < count($teams); $j++) {
                 $games[] = [
@@ -55,18 +54,31 @@ class GameController extends Controller
                     'status' => 'pending',
                     'field' => $fieldCounter,
                 ];
-    
+
                 $fieldCounter++;
                 if ($fieldCounter > $fields) {
                     $fieldCounter = 1;
                 }
             }
         }
-    
+
         Game::insert($games);
-    
+
         return redirect()->route('games.index')->with('success', 'Wedstrijdschema gegenereerd met ' . $fields . ' velden!');
     }
-    
-    
+
+    public function updateScore(Request $request, Game $game)
+    {
+        $request->validate([
+            'uitslag' => 'required|string',
+        ]);
+
+        $game->uitslag = $request->uitslag;
+        $game->save();
+
+        // Sla de score tijdelijk op in de sessie
+        session()->flash('uitslag', $request->uitslag);
+
+        return redirect()->route('games.index')->with('success', 'Score updated successfully!');
+    }
 }

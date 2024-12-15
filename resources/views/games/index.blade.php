@@ -10,20 +10,6 @@
         </div>
     @endif
 
-    <form action="{{ route('games.generate') }}" method="POST" class="mb-4">
-        @csrf
-        <div class="form-group">
-            <label for="fields">Aantal velden:</label>
-            <select name="fields" id="fields" class="form-control" required>
-                <option value="1">1 veld</option>
-                <option value="2">2 velden</option>
-                <option value="3">3 velden</option>
-                <option value="4">4 velden</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary mt-2">Wedstrijdschema Genereren</button>
-    </form>
-
     <table class="table mt-4">
         <thead>
             <tr>
@@ -34,6 +20,7 @@
                 <th>Scheidsrechter</th>
                 <th>Uitslag</th>
                 <th>Starttijd</th>
+                <th>Aanpassen</th>
             </tr>
         </thead>
         <tbody>
@@ -44,11 +31,37 @@
                 <td>{{ $game->team2->name }}</td>
                 <td>{{ $game->field ?? 'Niet toegewezen' }}</td>
                 <td>{{ $game->scheidsrechter ?? 'Niet toegewezen' }}</td>
-                <td>{{ $game->uitslag ?? '-' }}</td>
+                <td>{{ session('uitslag', $game->uitslag) ?? '-' }}</td>
                 <td>{{ $game->starttijd ? $game->starttijd->format('H:i') : 'Niet beschikbaar' }}</td>
+                <td>
+                    <form action="{{ route('games.updateScore', $game->id) }}" method="POST">
+                        @csrf
+                        <input type="text" name="uitslag" value="{{ old('uitslag', $game->uitslag) }}" class="form-control" placeholder="Score">
+                        <button type="submit" class="btn btn-primary btn-sm mt-1">Bijwerken</button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+
+<!-- Test script -->
+<div class="mt-4">
+    <h2>Test Score Update After Refresh</h2>
+    <button id="refreshButton" class="btn btn-secondary">Refresh Page</button>
+    <div id="scoreDisplay" class="mt-2"></div>
+</div>
+
+<script>
+    document.getElementById('refreshButton').addEventListener('click', function() {
+        location.reload(); // Reloads the page
+    });
+
+    // Display the score from session storage after a page refresh
+    window.onload = function() {
+        var uitslag = "{{ session('uitslag', '-') }}";
+        document.getElementById('scoreDisplay').textContent = 'Current Score: ' + uitslag;
+    };
+</script>
 @endsection

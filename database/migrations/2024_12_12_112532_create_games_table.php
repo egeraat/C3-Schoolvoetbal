@@ -17,9 +17,10 @@ return new class extends Migration
             $table->unsignedBigInteger('team2_id');
             $table->string('status')->default('pending');
             $table->integer('field')->nullable();
+            $table->string('uitslag')->nullable(); // New column for score
             $table->timestamps();
 
-            // Relaties
+            // Relationships
             $table->foreign('team1_id')->references('id')->on('teams')->onDelete('cascade');
             $table->foreign('team2_id')->references('id')->on('teams')->onDelete('cascade');
         });
