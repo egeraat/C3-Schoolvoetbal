@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GameController;
 
 // Home route
+// Test om te kijken of mijn github werkt, ik haal dit na mijn push weer weg.
 Route::get('/', function () {
     return view('welcome');
 });
