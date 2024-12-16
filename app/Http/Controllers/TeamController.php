@@ -106,4 +106,40 @@ class TeamController extends Controller
         return redirect()->route('teams.edit', $team->id)->with('success', 'Speler toegevoegd!');
 
     }
+    public function updateScore(Request $request, $id)
+{
+    // Valideer de input
+    $request->validate([
+        'uitslg' => 'required|regex:/^\d+-\d+$/',
+    ]);
+
+    // Haal de wedstrijd op
+    $game = Game::findOrFail($id);
+
+    // Uitslag opslaan in de game-tabel
+    $game->uitslg = $request->input('uitslg');
+    $game->save();
+
+    // Uitslag splitsen in goals
+    [$team1Goals, $team2Goals] = explode('-', $game->uitslg);
+
+    // Bereken punten
+    if ($team1Goals > $team2Goals) {
+        // Team 1 wint
+        $game->team1->points += 3;
+    } elseif ($team1Goals < $team2Goals) {
+        // Team 2 wint
+        $game->team2->points += 3;
+    } else {
+        // Gelijkspel
+        $game->team1->points += 1;
+        $game->team2->points += 1;
+    }
+
+    // Sla de nieuwe punten op in de teams-tabel
+    $game->team1->save();
+    $game->team2->save();
+
+    return redirect()->back()->with('success', 'Uitslag en punten succesvol bijgewerkt!');
+}
 }

@@ -41,7 +41,11 @@
                                 <a class="nav-link text-white" href="{{ route('admin.index') }}">Beheer</a>
                             </li>
                         @endif
-                    @endauth                  
+                    @endauth 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('ranking.index') }}">Ranglijst</a>
+                    </li>
+                 
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     @auth

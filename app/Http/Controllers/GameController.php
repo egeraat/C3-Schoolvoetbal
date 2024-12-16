@@ -67,18 +67,42 @@ class GameController extends Controller
         return redirect()->route('games.index')->with('success', 'Wedstrijdschema gegenereerd met ' . $fields . ' velden!');
     }
 
-    public function updateScore(Request $request, Game $game)
+    public function updateScore(Request $request, $id)
     {
+        // Haal de wedstrijd op
+        $game = Game::findOrFail($id);
+    
+        // Valideer de input
         $request->validate([
-            'uitslag' => 'required|string',
+            'uitslag' => 'required|string', // bijv. "2-1"
         ]);
-
-        $game->uitslag = $request->uitslag;
+    
+        // Sla de score op
+        $game->uitslag = $request->input('uitslag');
         $game->save();
-
-        // Sla de score tijdelijk op in de sessie
-        session()->flash('uitslag', $request->uitslag);
-
-        return redirect()->route('games.index')->with('success', 'Score updated successfully!');
+    
+        // Haal teamgegevens op
+        $team1 = Team::findOrFail($game->team1_id);
+        $team2 = Team::findOrFail($game->team2_id);
+    
+        // Verwerk de score (bijv. "2-1")
+        [$score1, $score2] = explode('-', $game->uitslag);
+    
+        // Puntenberekening: winst = 3, gelijk = 1, verlies = 0
+        if ($score1 > $score2) {
+            $team1->points += 3; // Team 1 wint
+        } elseif ($score1 < $score2) {
+            $team2->points += 3; // Team 2 wint
+        } else {
+            $team1->points += 1; // Gelijkspel
+            $team2->points += 1;
+        }
+    
+        // Sla de nieuwe punten op
+        $team1->save();
+        $team2->save();
+    
+        // Redirect met succesbericht
+        return redirect()->back()->with('success', 'Uitslag en punten bijgewerkt!');
     }
 }
