@@ -59,22 +59,4 @@
     </table>
 </div>
 
-<!-- Test script -->
-<div class="mt-4">
-    <h2>Test Score Update After Refresh</h2>
-    <button id="refreshButton" class="btn btn-secondary">Refresh Page</button>
-    <div id="scoreDisplay" class="mt-2"></div>
-</div>
-
-<script>
-    document.getElementById('refreshButton').addEventListener('click', function() {
-        location.reload(); // Reloads the page
-    });
-
-    // Display the score from session storage after a page refresh
-    window.onload = function() {
-        var uitslag = "{{ session('uitslag', '-') }}";
-        document.getElementById('scoreDisplay').textContent = 'Current Score: ' + uitslag;
-    };
-</script>
 @endsection
