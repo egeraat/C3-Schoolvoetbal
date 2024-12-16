@@ -9,7 +9,20 @@
             {{ session('success') }}
         </div>
     @endif
-
+    
+    <form action="{{ route('games.generate') }}" method="POST" class="mb-4">
+        @csrf
+        <div class="form-group">
+            <label for="fields">Aantal velden:</label>
+            <select name="fields" id="fields" class="form-control" required>
+                <option value="1">1 veld</option>
+                <option value="2">2 velden</option>
+                <option value="3">3 velden</option>
+                <option value="4">4 velden</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Wedstrijdschema Genereren</button>
+    </form>
     <table class="table mt-4">
         <thead>
             <tr>

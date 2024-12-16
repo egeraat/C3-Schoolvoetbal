@@ -50,5 +50,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Team::class);
     }
-
+    
+    public function isAdmin()
+    {
+        return $this->admin == 1;
+    }
+    
 }

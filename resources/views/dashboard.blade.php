@@ -59,7 +59,8 @@
                     <button type="submit" class="btn btn-primary">Nieuw Wedstrijdschema Genereren</button>
                 </form>
             @else
-                <a href="{{ route('games.index') }}" class="btn btn-primary">Bekijk Wedstrijdschema</a>
+            <input type="hidden" name="fields" value="4">
+            <a href="{{ route('games.view') }}" class="btn btn-primary">Bekijk Wedstrijdschema</a>
             @endif
         </div>
     </div>

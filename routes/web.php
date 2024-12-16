@@ -23,6 +23,7 @@ Route::get('/games', [GameController::class, 'index'])->name('games.index');
 Route::post('/games/generate', [GameController::class, 'generate'])->name('games.generate');
 Route::get('/wedstrijdschema', [GameController::class, 'viewSchema'])->name('games.view');
 Route::post('/games/{game}/update-score', [GameController::class, 'updateScore'])->name('games.updateScore');
+Route::post('/games/update-uitslag', [GameController::class, 'updateUitslag'])->name('games.updateUitslag');
 
 // Dashboard route
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
