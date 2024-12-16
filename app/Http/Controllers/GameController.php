@@ -105,4 +105,24 @@ class GameController extends Controller
         // Redirect met succesbericht
         return redirect()->back()->with('success', 'Uitslag en punten bijgewerkt!');
     }
+    public function getWedstrijden()
+    {
+        // Haal alle wedstrijden op met team-informatie
+        $games = Game::with(['team1', 'team2'])->get();
+
+        // Formatteer de JSON-data
+        $data = $games->map(function ($game) {
+            return [
+                'wedstrijd_id' => $game->id,
+                'team1_id' => $game->team1->id ?? null,
+                'team1_name' => $game->team1->name ?? null,
+                'team2_id' => $game->team2->id ?? null,
+                'team2_name' => $game->team2->name ?? null,
+                'match_date' => $game->match_date, // Voeg de datum toe
+            ];
+        });
+
+        return response()->json($data);
+    }
+
 }
