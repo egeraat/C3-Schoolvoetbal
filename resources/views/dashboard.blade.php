@@ -53,10 +53,10 @@
     <div class="row mt-4">
         <div class="col-12 text-center">
             @if (auth()->user()->email === 'admin@example.com' || auth()->user()->is_admin)
-                <form action="{{ route('games.generate') }}" method="POST">
+                <form action="{{ route('games.index') }}" method="GET">
                     @csrf
                     <input type="hidden" name="fields" value="4">
-                    <button type="submit" class="btn btn-primary">Nieuw Wedstrijdschema Genereren</button>
+                    <button type="submit" class="btn btn-primary">Admin - Wedstrijdschema</button>
                 </form>
             @else
             <input type="hidden" name="fields" value="4">
