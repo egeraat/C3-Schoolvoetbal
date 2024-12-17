@@ -46,10 +46,11 @@ class User extends Authenticatable
         ];
     }
     
-    public function teams()
-    {
-        return $this->hasMany(Team::class);
-    }
+    public function team()
+{
+    return $this->belongsTo(Team::class);
+}
+
     
     public function isAdmin()
     {

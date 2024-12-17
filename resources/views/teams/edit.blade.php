@@ -34,19 +34,11 @@
         <hr>
         <h3>Spelers in dit Team</h3>
         <ul>
-            @foreach($team->players as $player)
-                <li>{{ $player->name }}</li>
+            @foreach($team->users as $user)
+                <li>{{ $user->name }}</li>
             @endforeach
         </ul>
 
-        <form action="{{ route('teams.addPlayer', $team->id) }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="name">Naam van de speler</label>
-                <input type="text" name="name" id="name" class="form-control" required>
-            </div>
-
-            <button type="submit" class="btn btn-success mt-3">Voeg Speler Toe</button>
-        </form>
+    
     </div>
 @endsection

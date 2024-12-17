@@ -88,24 +88,20 @@ class TeamController extends Controller
 
 
     public function addPlayer(Request $request, Team $team)
-    {
-        if ($team->user_id !== auth()->id()) {
-            return redirect()->route('teams.index')->with('error', 'Je mag geen spelers aan dit team toevoegen.');
-        }
+{
+    $user = auth()->user();
 
-        $request->validate([
-            'name' => 'required', 
-        ]);
-
-
-        $player = new Player();
-        $player->name = $request->name;
-        $player->team_id = $team->id;
-        $player->save();
-
-        return redirect()->route('teams.edit', $team->id)->with('success', 'Speler toegevoegd!');
-
+    // Controleer of de gebruiker al in een ander team zit
+    if ($user->team) {
+        return redirect()->back()->with('error', 'Je zit al in een ander team.');
     }
+
+    // Voeg de gebruiker toe aan dit team
+    $user->team_id = $team->id;
+    $user->save();
+
+    return redirect()->back()->with('success', 'Je bent succesvol toegevoegd aan het team.');
+}
     public function updateScore(Request $request, $id)
 {
     // Valideer de input
@@ -141,5 +137,20 @@ class TeamController extends Controller
     $game->team2->save();
 
     return redirect()->back()->with('success', 'Uitslag en punten succesvol bijgewerkt!');
+}
+public function joinTeam(Request $request, Team $team)
+{
+    $user = auth()->user();
+
+    // Controleer of de gebruiker al in een ander team zit
+    if ($user->team) {
+        return redirect()->back()->with('error', 'Je zit al in een ander team.');
+    }
+
+    // Voeg de gebruiker toe aan dit team
+    $user->team_id = $team->id;
+    $user->save();
+
+    return redirect()->back()->with('success', 'Je bent succesvol toegevoegd aan het team.');
 }
 }

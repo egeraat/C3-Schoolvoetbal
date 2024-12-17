@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 // Teams routes
 Route::resource('teams', TeamController::class)->middleware('auth');
-Route::post('teams/{team}/addPlayer', [TeamController::class, 'addPlayer'])->name('teams.addPlayer');
+Route::post('/teams/{team}/join', [TeamController::class, 'joinTeam'])->name('teams.join');
 
 // Games routes
 Route::get('/games', [GameController::class, 'index'])->name('games.index');
