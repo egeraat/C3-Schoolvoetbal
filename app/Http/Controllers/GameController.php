@@ -28,6 +28,8 @@ class GameController extends Controller
 
     public function generate(Request $request, Team $team)
     {
+        \App\Models\Team::query()->update(['points' => 0]);
+
         // Controleer of de gebruiker admin is via e-mail of via de is_admin kolom
         if (($team->user_id !== auth()->id()) && !auth()->user()->is_admin && auth()->user()->email !== 'admin@example.com') {
             return redirect()->route('games.index')->with('error', 'Je hebt geen toestemming.');
