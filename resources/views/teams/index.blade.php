@@ -39,6 +39,9 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Verwijderen</button>
                         </form>
+                        <a href="{{ route('teams.team-full-view', $team->id) }}" class="btn btn-info">
+                        Bekijk Details
+                    </a>
 
                         @auth
                             @if(auth()->user()->team_id !== $team->id)

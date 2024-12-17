@@ -16,8 +16,13 @@ class Team extends Model
         return $this->hasMany(Player::class);
     }
 
-    public function users()
+    public function user()
 {
-    return $this->hasMany(User::class);
+    return $this->belongsTo(User::class); // Aangemaakt door één gebruiker
+}
+
+public function users()
+{
+    return $this->belongsToMany(User::class); // Meerdere spelers
 }
 }

@@ -16,8 +16,10 @@ Route::get('/', function () {
 })->name('home');
 
 // Teams routes
-Route::resource('teams', TeamController::class)->middleware('auth');
+Route::resource('teams', TeamController::class)->except(['show'])->middleware('auth');
 Route::post('/teams/{team}/join', [TeamController::class, 'joinTeam'])->name('teams.join');
+Route::get('/teams/{team}/full-view', [TeamController::class, 'teamFullView'])->name('teams.team-full-view');
+
 
 // Games routes
 Route::get('/games', [GameController::class, 'index'])->name('games.index');

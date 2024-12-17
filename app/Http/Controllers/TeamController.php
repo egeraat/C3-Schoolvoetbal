@@ -12,9 +12,7 @@ class TeamController extends Controller
 
     public function index()
     {
-        $teams = Team::all(); 
-
-
+        $teams = Team::with('users', 'user')->get();
         return view('teams.index', compact('teams'));
     }
 
@@ -153,4 +151,13 @@ public function joinTeam(Request $request, Team $team)
 
     return redirect()->back()->with('success', 'Je bent succesvol toegevoegd aan het team.');
 }
+public function teamFullView(Team $team)
+{
+    // Laad alle benodigde relaties, zoals gebruikers en de maker
+    $team->load('users', 'user');
+
+    // Stuur het specifieke team naar de view
+    return view('teams.team-full-view', compact('team'));
+}
+
 }
