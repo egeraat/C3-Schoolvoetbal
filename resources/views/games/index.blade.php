@@ -50,6 +50,13 @@
                     <form action="{{ route('games.updateScore', $game->id) }}" method="POST">
                         @csrf
                         <input type="text" name="uitslag" value="{{ old('uitslag', $game->uitslag) }}" class="form-control" placeholder="Score">
+                        
+                        @if ($errors->has('uitslag'))
+                            <div class="alert alert-danger mt-2">
+                                {{ $errors->first('uitslag') }}
+                            </div>
+                        @endif
+
                         <button type="submit" class="btn btn-primary btn-sm mt-1">Bijwerken</button>
                     </form>
                 </td>

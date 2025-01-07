@@ -70,41 +70,31 @@ class GameController extends Controller
     }
 
     public function updateScore(Request $request, $id)
-    {
-        // Haal de wedstrijd op
-        $game = Game::findOrFail($id);
-    
-        // Valideer de input
-        $request->validate([
-            'uitslag' => 'required|string', // bijv. "2-1"
-        ]);
-    
-        // Sla de score op
-        $game->uitslag = $request->input('uitslag');
-        $game->save();
-    
-        // Haal teamgegevens op
-        $team1 = Team::findOrFail($game->team1_id);
-        $team2 = Team::findOrFail($game->team2_id);
-    
-        // Verwerk de score (bijv. "2-1")
-        [$score1, $score2] = explode('-', $game->uitslag);
-    
-        // Puntenberekening: winst = 3, gelijk = 1, verlies = 0
-        if ($score1 > $score2) {
-            $team1->points += 3; // Team 1 wint
-        } elseif ($score1 < $score2) {
-            $team2->points += 3; // Team 2 wint
-        } else {
-            $team1->points += 1; // Gelijkspel
-            $team2->points += 1;
-        }
-    
-        // Sla de nieuwe punten op
-        $team1->save();
-        $team2->save();
-    
-        // Redirect met succesbericht
-        return redirect()->back()->with('success', 'Uitslag en punten bijgewerkt!');
+{
+    $request->validate([
+        'uitslag' => ['required', 'regex:/^\d+-\d+$/'], 
+    ]);
+
+    $game = Game::findOrFail($id);
+
+    $game->uitslag = $request->input('uitslag');
+    $game->save();
+
+    [$team1Goals, $team2Goals] = explode('-', $game->uitslag);
+
+    if ($team1Goals > $team2Goals) {
+        $game->team1->points += 3; 
+    } elseif ($team1Goals < $team2Goals) {
+        $game->team2->points += 3; 
+    } else {
+        $game->team1->points += 1;
+        $game->team2->points += 1;
     }
+
+    $game->team1->save();
+    $game->team2->save();
+
+    return redirect()->back()->with('success', 'Uitslag en punten succesvol bijgewerkt!');
+}
+
 }
